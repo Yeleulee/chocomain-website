@@ -106,7 +106,7 @@ function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-20">
               <div className="flex items-center">
-                <a href="/" className="block">
+                <Link to="/" className="block">
                   <motion.img 
                     src="/IMAGES/logo.png" 
                     alt="Choco Bites" 
@@ -114,7 +114,7 @@ function App() {
                     whileHover={{ scale: 1.05 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   />
-                </a>
+                </Link>
               </div>
               
               <div className="flex items-center space-x-6">
@@ -122,11 +122,12 @@ function App() {
                   onClick={() => setIsSearchOpen(true)}
                   className="p-2 rounded-full text-white hover:text-luxury-gold transition-colors hidden lg:flex items-center justify-center drop-shadow-md"
                   title="Search"
+                  aria-label="Open search"
                 >
                   <Search className="h-5 w-5" />
                 </button>
                 <a 
-                  href="https://instagram.com/your-profile"
+                  href="https://instagram.com/chocobites"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hidden md:flex items-center justify-center text-white hover:text-luxury-gold transition-colors drop-shadow-md"
@@ -136,10 +137,10 @@ function App() {
                 <button 
                   onClick={() => setIsMenuOpen(true)}
                   className="p-2 rounded-full bg-luxury-gold text-white hover:bg-luxury-dark transition-all duration-300 flex items-center justify-center shadow-lg relative"
-                  aria-label="Menu"
+                  aria-label="Open navigation menu"
                 >
                   <Menu className="h-5 w-5" />
-                  <span className="absolute -right-1 -top-1 h-3 w-3 bg-white rounded-full animate-ping opacity-75 duration-1000 hidden md:block"></span>
+                  <span className="absolute -right-1 -top-1 h-3 w-3 bg-white rounded-full animate-pulse opacity-75 duration-1000 hidden md:block"></span>
                 </button>
               </div>
             </div>
@@ -166,6 +167,7 @@ function App() {
                   <button 
                     onClick={() => setIsSearchOpen(false)}
                     className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                    aria-label="Close search"
                   >
                     <X className="h-5 w-5" />
                   </button>
@@ -212,6 +214,7 @@ function App() {
                   <button 
                     onClick={() => setIsMenuOpen(false)}
                     className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                    aria-label="Close navigation menu"
                   >
                     <X className="h-6 w-6" />
                   </button>
@@ -257,7 +260,7 @@ function App() {
                 
                 <div className="mt-auto pt-6 border-t border-gray-200">
                   <a 
-                    href="https://instagram.com/your-profile"
+                    href="https://instagram.com/chocobites"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center space-x-2 text-luxury-dark hover:text-luxury-gold transition-colors"
@@ -621,7 +624,7 @@ function App() {
                             {item.description}
                           </p>
                           <a 
-                            href="https://instagram.com/your-profile"
+                            href="https://instagram.com/chocobites"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="mt-4 inline-flex items-center text-luxury-gold hover:text-primary-600 transition-colors"
@@ -656,7 +659,7 @@ function App() {
                       <h3 className="font-display text-xl mb-3">Artisanal Quality</h3>
                       <p className="font-accent text-white/80">Handcrafted in small batches daily</p>
                       <a 
-                        href="https://instagram.com/your-profile"
+                        href="https://instagram.com/chocobites"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-4 inline-flex items-center text-luxury-gold hover:text-white transition-colors"
@@ -669,7 +672,7 @@ function App() {
                       <h3 className="font-display text-xl mb-3">Premium Ingredients</h3>
                       <p className="font-accent text-white/80">Sourced from world-class suppliers</p>
                       <a 
-                        href="https://instagram.com/your-profile"
+                        href="https://instagram.com/chocobites"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-4 inline-flex items-center text-luxury-gold hover:text-white transition-colors"
@@ -682,7 +685,7 @@ function App() {
                       <h3 className="font-display text-xl mb-3">Luxury Experience</h3>
                       <p className="font-accent text-white/80">Delivered in signature packaging</p>
                       <a 
-                        href="https://instagram.com/your-profile"
+                        href="https://instagram.com/chocobites"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-4 inline-flex items-center text-luxury-gold hover:text-white transition-colors"
@@ -758,7 +761,7 @@ function App() {
                     <motion.a
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      href="https://instagram.com/your-profile"
+                      href="https://instagram.com/chocobites"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center bg-luxury-gold text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-primary-600 transition-colors shadow-lg"
@@ -783,17 +786,17 @@ function App() {
               <div>
                 <h3 className="font-display text-xl mb-4">Quick Links</h3>
                 <ul className="space-y-2">
-                  <li><a href="#collections" className="text-white/80 hover:text-white transition-colors">Collections</a></li>
-                  <li><a href="#our-story" className="text-white/80 hover:text-white transition-colors">Our Story</a></li>
-                  <li><a href="#gifting" className="text-white/80 hover:text-white transition-colors">Gifting</a></li>
-                  <li><a href="#contact" className="text-white/80 hover:text-white transition-colors">Contact</a></li>
-                  <li><a href="#how-to-order" className="text-white/80 hover:text-white transition-colors">How to Order</a></li>
+                  <li><Link to="/shop" className="text-white/80 hover:text-white transition-colors">Shop</Link></li>
+                  <li><Link to="/about" className="text-white/80 hover:text-white transition-colors">About Us</Link></li>
+                  <li><Link to="/contact" className="text-white/80 hover:text-white transition-colors">Contact</Link></li>
+                  <li><Link to="/shop?category=gifts" className="text-white/80 hover:text-white transition-colors">Gift Sets</Link></li>
+                  <li><Link to="/shop?category=specials" className="text-white/80 hover:text-white transition-colors">Specials</Link></li>
                 </ul>
               </div>
               <div>
                 <h3 className="font-display text-xl mb-4">Connect With Us</h3>
                 <a 
-                  href="https://instagram.com/your-profile"
+                  href="https://instagram.com/chocobites"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center text-luxury-gold hover:text-white transition-colors"
@@ -810,7 +813,7 @@ function App() {
               <div>
                 <h3 className="font-display text-xl mb-4">Order Now</h3>
                 <a 
-                  href="https://instagram.com/your-profile"
+                  href="https://instagram.com/chocobites"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center bg-luxury-gold text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-primary-600 transition-colors"
