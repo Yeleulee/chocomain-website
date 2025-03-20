@@ -42,18 +42,18 @@ const Shop: React.FC = () => {
           {/* Products grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {[
-              {name: "Dark Chocolate Truffle", price: "$6.99", image: "/IMAGES/cookiee.jpg", category: "Truffles"},
-              {name: "Salted Caramel Dream", price: "$7.99", image: "/IMAGES/cinimon.jpg", category: "Truffles"},
-              {name: "Red Velvet Royale", price: "$7.99", image: "/IMAGES/cookiechip.jpg", category: "Cookies"},
-              {name: "Lemon Zest Delight", price: "$5.99", image: "/IMAGES/cookiee.jpg", category: "Cookies"},
-              {name: "Peanut Butter Bliss", price: "$6.49", image: "/IMAGES/cinimon.jpg", category: "Cookies"},
-              {name: "White Chocolate Macadamia", price: "$6.99", image: "/IMAGES/cookiechip.jpg", category: "Cookies"},
-              {name: "Hazelnut Heaven", price: "$8.99", image: "/IMAGES/cookiee.jpg", category: "Truffles"},
-              {name: "Premium Gift Box", price: "$24.99", image: "/IMAGES/cinimon.jpg", category: "Gift Sets"},
-              {name: "Seasonal Special", price: "$9.99", image: "/IMAGES/cookiechip.jpg", category: "Specials"},
-              {name: "Chocolate Chip Classic", price: "$5.99", image: "/IMAGES/cookiee.jpg", category: "Cookies"},
-              {name: "Luxury Assortment", price: "$29.99", image: "/IMAGES/cinimon.jpg", category: "Gift Sets"},
-              {name: "Birthday Collection", price: "$19.99", image: "/IMAGES/cookiechip.jpg", category: "Gift Sets"},
+              {name: "Dark Chocolate Truffle", price: "ETB 350", image: "/IMAGES/dark_chocolate_truffle.jpg", category: "Truffles"},
+              {name: "Salted Caramel Dream", price: "ETB 400", image: "/IMAGES/salted_caramel_dream.jpg", category: "Truffles"},
+              {name: "Red Velvet Royale", price: "ETB 400", image: "/IMAGES/red_velvet_royale.jpg", category: "Cookies"},
+              {name: "Lemon Zest Delight", price: "ETB 300", image: "/IMAGES/lemon_zest_delight.jpg", category: "Cookies"},
+              {name: "Peanut Butter Bliss", price: "ETB 325", image: "/IMAGES/peanut_butter_bliss.jpg", category: "Cookies"},
+              {name: "White Chocolate Macadamia", price: "ETB 350", image: "/IMAGES/white_chocolate_macadamia.jpg", category: "Cookies"},
+              {name: "Hazelnut Heaven", price: "ETB 450", image: "/IMAGES/hazelnut_heaven.jpg", category: "Truffles"},
+              {name: "Premium Gift Box", price: "ETB 1250", image: "/IMAGES/premium_gift_box.jpg", category: "Gift Sets"},
+              {name: "Seasonal Special", price: "ETB 500", image: "/IMAGES/seasonal_special.jpg", category: "Specials"},
+              {name: "Chocolate Chip Classic", price: "ETB 300", image: "/IMAGES/chocolate_chip_classic.jpg", category: "Cookies"},
+              {name: "Luxury Assortment", price: "ETB 1500", image: "/IMAGES/luxury_assortment.jpg", category: "Gift Sets"},
+              {name: "Birthday Collection", price: "ETB 1000", image: "/IMAGES/birthday_collection.jpg", category: "Gift Sets"},
             ].map((product, index) => (
               <motion.div
                 key={index}
@@ -72,6 +72,9 @@ const Shop: React.FC = () => {
                     alt={product.name}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
+                    width="300"
+                    height="200"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-300"></div>
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
@@ -84,7 +87,7 @@ const Shop: React.FC = () => {
                   <h3 className="text-lg font-display font-bold text-luxury-dark mb-1">{product.name}</h3>
                   <p className="text-luxury-gold font-medium mb-2">{product.price}</p>
                   <a 
-                    href="https://instagram.com/chocobites"
+                    href="https://www.instagram.com/c_hoco_bites/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full bg-luxury-dark text-white px-4 py-2 rounded-full hover:bg-primary-600 transition-colors font-medium inline-flex items-center justify-center text-sm"
@@ -100,7 +103,7 @@ const Shop: React.FC = () => {
           <div className="mt-20 text-center">
             <p className="text-gray-600 font-accent mb-6">Can't find what you're looking for?</p>
             <a 
-              href="https://instagram.com/chocobites"
+              href="https://www.instagram.com/c_hoco_bites/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center bg-luxury-gold text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-primary-600 transition-colors shadow-lg"
@@ -153,6 +156,9 @@ const Shop: React.FC = () => {
                   alt={collection.name}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   loading="lazy"
+                  width="400"
+                  height="300"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
@@ -201,6 +207,9 @@ const Shop: React.FC = () => {
                 alt="Baking Process" 
                 className="w-full h-auto rounded-xl shadow-xl"
                 loading="lazy"
+                width="600"
+                height="400"
+                decoding="async"
               />
               <div className="absolute -bottom-6 -left-6 w-48 h-48 bg-luxury-gold rounded-xl -z-10"></div>
               <div className="absolute -top-6 -right-6 w-32 h-32 bg-luxury-dark rounded-xl -z-10"></div>

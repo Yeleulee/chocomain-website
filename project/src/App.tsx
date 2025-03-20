@@ -58,14 +58,14 @@ function App() {
       
       // Set bandwidth based on connection type or effective type
       if (connection.effectiveType === '2g' || connection.effectiveType === 'slow-2g' || 
-          connection.saveData === true) {
+          connection.saveData === true || connection.downlink < 1.5) {
         setIsHighBandwidth(false);
       }
       
       // Listen for changes to connection
       const updateConnectionStatus = () => {
         if (connection.effectiveType === '2g' || connection.effectiveType === 'slow-2g' || 
-            connection.saveData === true) {
+            connection.saveData === true || connection.downlink < 1.5) {
           setIsHighBandwidth(false);
         } else {
           setIsHighBandwidth(true);
@@ -82,10 +82,11 @@ function App() {
     preconnect.href = '/videos/';
     document.head.appendChild(preconnect);
     
-    // Preload the video file
+    // Preload the video file conditionally based on bandwidth
+    const videoPath = isHighBandwidth ? '/videos/glaze.mp4' : '/videos/glaze-low.mp4';
     const videoPreload = document.createElement('link');
     videoPreload.rel = 'preload';
-    videoPreload.href = '/videos/glaze.mp4';
+    videoPreload.href = videoPath;
     videoPreload.as = 'video';
     videoPreload.type = 'video/mp4';
     document.head.appendChild(videoPreload);
@@ -95,7 +96,7 @@ function App() {
       document.head.removeChild(preconnect);
       document.head.removeChild(videoPreload);
     };
-  }, []);
+  }, [isHighBandwidth]);
 
   return (
     <Router>
@@ -127,7 +128,7 @@ function App() {
                   <Search className="h-5 w-5" />
                 </button>
                 <a 
-                  href="https://instagram.com/chocobites"
+                  href="https://www.instagram.com/c_hoco_bites/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hidden md:flex items-center justify-center text-white hover:text-luxury-gold transition-colors drop-shadow-md"
@@ -260,7 +261,7 @@ function App() {
                 
                 <div className="mt-auto pt-6 border-t border-gray-200">
                   <a 
-                    href="https://instagram.com/chocobites"
+                    href="https://www.instagram.com/c_hoco_bites/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center space-x-2 text-luxury-dark hover:text-luxury-gold transition-colors"
@@ -295,15 +296,23 @@ function App() {
                       if (el) {
                         el.play().catch(err => {
                           console.error("Video autoplay failed:", err);
+                          // Try playing again after a brief delay
+                          setTimeout(() => {
+                            el.play().catch(() => {});
+                          }, 1000);
                         });
                       }
                     }}
                   >
                     {/* Serve different quality video based on bandwidth */}
                     {isHighBandwidth ? (
-                      <source src="/videos/glaze.mp4" type="video/mp4" />
+                      <>
+                        <source src="/videos/glaze.mp4" type="video/mp4" />
+                      </>
                     ) : (
-                      <source src="/videos/glaze-low.mp4" type="video/mp4" />
+                      <>
+                        <source src="/videos/glaze-low.mp4" type="video/mp4" />
+                      </>
                     )}
                   </video>
                   
@@ -542,7 +551,8 @@ function App() {
                         description: "Only the finest ingredients, sourced from renowned suppliers worldwide, ensuring exceptional taste in every bite.",
                         video: "/videos/4K.mp4",
                         poster: "/IMAGES/cookiee.jpg",
-                        width: 480
+                        width: 480,
+                        height: 270
                       },
                       {
                         icon: Award,
@@ -550,7 +560,8 @@ function App() {
                         description: "Each cookie is handcrafted by our expert pâtissiers, bringing decades of artisanal expertise to your plate.",
                         video: "/videos/WE MAKE.mp4",
                         poster: "/IMAGES/cinimon.jpg",
-                        width: 480
+                        width: 480,
+                        height: 270
                       },
                       {
                         icon: Leaf,
@@ -558,7 +569,8 @@ function App() {
                         description: "Committed to eco-friendly packaging and responsible sourcing, making every indulgence guilt-free.",
                         video: "/videos/phone.mp4",
                         poster: "/IMAGES/cookiechip.jpg",
-                        width: 480
+                        width: 480,
+                        height: 270
                       }
                     ].map((item, index) => (
                       <motion.div
@@ -577,35 +589,29 @@ function App() {
                             muted
                             loop
                             playsInline
-                            autoPlay
-                            preload="auto"
-                            src={item.video}
+                            preload="none"
                             width={item.width}
-                            ref={(el) => {
-                              if (el) {
-                                // Force play when mounted
-                                el.play().catch(() => {
-                                  console.log('Autoplay failed, trying again...');
-                                  // Try again with user interaction simulation
-                                  document.addEventListener('click', () => {
-                                    el.play();
-                                  }, { once: true });
-                                });
-                              }
-                            }}
-                            onClick={(e) => {
-                              // Toggle play/pause on mobile/desktop
-                              if (e.currentTarget.paused) {
-                                e.currentTarget.play();
-                              } else {
-                                e.currentTarget.pause();
-                              }
-                            }}
-                          />
+                            height={item.height}
+                            aria-label={`Video showcasing ${item.title}`}
+                          >
+                            <source src={item.video} type="video/mp4" />
+                          </video>
                           
-                          {/* Play indicator */}
-                          <div className="absolute inset-0 flex items-center justify-center opacity-75 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="w-16 h-16 rounded-full bg-luxury-gold/80 flex items-center justify-center">
+                          {/* Play indicator - Make it more visible */}
+                          <div 
+                            className="absolute inset-0 flex items-center justify-center opacity-90 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer"
+                            onClick={(e) => {
+                              const video = e.currentTarget.previousSibling as HTMLVideoElement;
+                              if (video.paused) {
+                                video.play().catch(() => {});
+                                e.currentTarget.classList.add('playing');
+                              } else {
+                                video.pause();
+                                e.currentTarget.classList.remove('playing');
+                              }
+                            }}
+                          >
+                            <div className="w-16 h-16 rounded-full bg-luxury-gold/90 flex items-center justify-center shadow-lg transform hover:scale-110 transition-transform">
                               <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-white" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M8 5v14l11-7z" />
                               </svg>
@@ -624,7 +630,7 @@ function App() {
                             {item.description}
                           </p>
                           <a 
-                            href="https://instagram.com/chocobites"
+                            href="https://www.instagram.com/c_hoco_bites/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="mt-4 inline-flex items-center text-luxury-gold hover:text-primary-600 transition-colors"
@@ -659,7 +665,7 @@ function App() {
                       <h3 className="font-display text-xl mb-3">Artisanal Quality</h3>
                       <p className="font-accent text-white/80">Handcrafted in small batches daily</p>
                       <a 
-                        href="https://instagram.com/chocobites"
+                        href="https://www.instagram.com/c_hoco_bites/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-4 inline-flex items-center text-luxury-gold hover:text-white transition-colors"
@@ -672,7 +678,7 @@ function App() {
                       <h3 className="font-display text-xl mb-3">Premium Ingredients</h3>
                       <p className="font-accent text-white/80">Sourced from world-class suppliers</p>
                       <a 
-                        href="https://instagram.com/chocobites"
+                        href="https://www.instagram.com/c_hoco_bites/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-4 inline-flex items-center text-luxury-gold hover:text-white transition-colors"
@@ -685,7 +691,7 @@ function App() {
                       <h3 className="font-display text-xl mb-3">Luxury Experience</h3>
                       <p className="font-accent text-white/80">Delivered in signature packaging</p>
                       <a 
-                        href="https://instagram.com/chocobites"
+                        href="https://www.instagram.com/c_hoco_bites/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="mt-4 inline-flex items-center text-luxury-gold hover:text-white transition-colors"
@@ -761,7 +767,7 @@ function App() {
                     <motion.a
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      href="https://instagram.com/chocobites"
+                      href="https://www.instagram.com/c_hoco_bites/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center bg-luxury-gold text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-primary-600 transition-colors shadow-lg"
@@ -796,7 +802,7 @@ function App() {
               <div>
                 <h3 className="font-display text-xl mb-4">Connect With Us</h3>
                 <a 
-                  href="https://instagram.com/chocobites"
+                  href="https://www.instagram.com/c_hoco_bites/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center text-luxury-gold hover:text-white transition-colors"
@@ -813,7 +819,7 @@ function App() {
               <div>
                 <h3 className="font-display text-xl mb-4">Order Now</h3>
                 <a 
-                  href="https://instagram.com/chocobites"
+                  href="https://www.instagram.com/c_hoco_bites/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center bg-luxury-gold text-white px-6 py-3 rounded-full text-sm font-medium hover:bg-primary-600 transition-colors"
