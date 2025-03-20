@@ -1,9 +1,125 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+// Product data extracted outside component to prevent re-creation on each render
+const products = [
+  {name: "Dark Chocolate Truffle", price: "$6.99", image: "/IMAGES/cookiee.jpg", category: "Truffles"},
+  {name: "Salted Caramel Dream", price: "$7.99", image: "/IMAGES/cinimon.jpg", category: "Truffles"},
+  {name: "Red Velvet Royale", price: "$7.99", image: "/IMAGES/cookiechip.jpg", category: "Cookies"},
+  {name: "Lemon Zest Delight", price: "$5.99", image: "/IMAGES/brownies.jpg", category: "Cookies"},
+  {name: "Peanut Butter Bliss", price: "$6.49", image: "/IMAGES/butter.jpg", category: "Cookies"},
+  {name: "White Chocolate Macadamia", price: "$6.99", image: "/IMAGES/cini.jpg", category: "Cookies"},
+  {name: "Hazelnut Heaven", price: "$8.99", image: "/IMAGES/cookiee.jpg", category: "Truffles"},
+  {name: "Premium Gift Box", price: "$24.99", image: "/IMAGES/brownies.webp", category: "Gift Sets"},
+  {name: "Seasonal Special", price: "$9.99", image: "/IMAGES/brownies 2.webp", category: "Specials"},
+  {name: "Chocolate Chip Classic", price: "$5.99", image: "/IMAGES/cookiechip.jpg", category: "Cookies"},
+  {name: "Luxury Assortment", price: "$29.99", image: "/IMAGES/cinimon.jpg", category: "Gift Sets"},
+  {name: "Birthday Collection", price: "$19.99", image: "/IMAGES/butter.jpg", category: "Gift Sets"},
+];
+
+// Collections data
+const collections = [
+  {
+    name: "Signature Truffles",
+    description: "Our award-winning selection of handcrafted truffles",
+    image: "/IMAGES/cookiee.jpg"
+  },
+  {
+    name: "Gift Boxes",
+    description: "Elegant assortments perfect for any occasion",
+    image: "/IMAGES/cinimon.jpg"
+  },
+  {
+    name: "Seasonal Specials",
+    description: "Limited-time offerings inspired by the seasons",
+    image: "/IMAGES/cookiechip.jpg"
+  }
+];
+
 const Shop: React.FC = () => {
+  // Memoizing the product cards to prevent unnecessary re-renders
+  const productCards = useMemo(() => {
+    return products.map((product, index) => (
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: Math.min(index * 0.05, 0.3) }} // Cap the delay for better performance
+        className="group"
+      >
+        <div className="relative h-64 mb-4 overflow-hidden rounded-xl">
+          <span className="absolute top-3 right-3 bg-luxury-gold text-white text-xs px-3 py-1 rounded-full z-10">
+            {product.category}
+          </span>
+          <img 
+            src={product.image} 
+            alt={product.name}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+            loading="lazy"
+            width="300"
+            height="200"
+            decoding="async"
+            fetchPriority={index < 4 ? "high" : "low"} // Prioritize loading the first 4 images
+          />
+          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-300"></div>
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+            <button className="bg-white/90 text-luxury-dark px-3 py-1 rounded-full text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+              Quick View
+            </button>
+          </div>
+        </div>
+        <div className="text-center">
+          <h3 className="text-lg font-display font-bold text-luxury-dark mb-1">{product.name}</h3>
+          <p className="text-luxury-gold font-medium mb-2">{product.price}</p>
+          <a 
+            href="https://www.instagram.com/c_hoco_bites/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full bg-luxury-dark text-white px-4 py-2 rounded-full hover:bg-primary-600 transition-colors font-medium inline-flex items-center justify-center text-sm"
+          >
+            <Instagram className="h-4 w-4 mr-2" />
+            Order on Instagram
+          </a>
+        </div>
+      </motion.div>
+    ));
+  }, []); // Empty dependency array ensures this runs only once
+
+  // Memoizing the collection cards
+  const collectionCards = useMemo(() => {
+    return collections.map((collection, index) => (
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: index * 0.2 }}
+        className="group relative h-80 overflow-hidden rounded-xl"
+      >
+        <img 
+          src={collection.image}
+          alt={collection.name}
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          loading="lazy"
+          width="400"
+          height="300"
+          decoding="async"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20"></div>
+        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+          <h3 className="text-2xl font-display font-bold mb-2">{collection.name}</h3>
+          <p className="text-white/80 font-accent mb-4">{collection.description}</p>
+          <button className="px-4 py-2 bg-luxury-gold text-white rounded-full text-sm font-medium hover:bg-luxury-gold/80 transition-colors">
+            Explore Collection
+          </button>
+        </div>
+      </motion.div>
+    ));
+  }, []); // Empty dependency array ensures this runs only once
+
   return (
     <div className="min-h-screen bg-white">
       {/* Shop Header */}
@@ -39,65 +155,9 @@ const Shop: React.FC = () => {
             </button>
           </div>
 
-          {/* Products grid */}
+          {/* Products grid - using memoized product cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {[
-              {name: "Dark Chocolate Truffle", price: "$6.99", image: "/IMAGES/cookiee.jpg", category: "Truffles"},
-              {name: "Salted Caramel Dream", price: "$7.99", image: "/IMAGES/cinimon.jpg", category: "Truffles"},
-              {name: "Red Velvet Royale", price: "$7.99", image: "/IMAGES/cookiechip.jpg", category: "Cookies"},
-              {name: "Lemon Zest Delight", price: "$5.99", image: "/IMAGES/brownies.jpg", category: "Cookies"},
-              {name: "Peanut Butter Bliss", price: "$6.49", image: "/IMAGES/butter.jpg", category: "Cookies"},
-              {name: "White Chocolate Macadamia", price: "$6.99", image: "/IMAGES/cini.jpg", category: "Cookies"},
-              {name: "Hazelnut Heaven", price: "$8.99", image: "/IMAGES/cookiee.jpg", category: "Truffles"},
-              {name: "Premium Gift Box", price: "$24.99", image: "/IMAGES/brownies.webp", category: "Gift Sets"},
-              {name: "Seasonal Special", price: "$9.99", image: "/IMAGES/brownies 2.webp", category: "Specials"},
-              {name: "Chocolate Chip Classic", price: "$5.99", image: "/IMAGES/cookiechip.jpg", category: "Cookies"},
-              {name: "Luxury Assortment", price: "$29.99", image: "/IMAGES/cinimon.jpg", category: "Gift Sets"},
-              {name: "Birthday Collection", price: "$19.99", image: "/IMAGES/butter.jpg", category: "Gift Sets"},
-            ].map((product, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.05 }}
-                className="group"
-              >
-                <div className="relative h-64 mb-4 overflow-hidden rounded-xl">
-                  <span className="absolute top-3 right-3 bg-luxury-gold text-white text-xs px-3 py-1 rounded-full z-10">
-                    {product.category}
-                  </span>
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    loading="lazy"
-                    width="300"
-                    height="200"
-                    decoding="async"
-                  />
-                  <div className="absolute inset-0 bg-black/10 group-hover:bg-black/30 transition-colors duration-300"></div>
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
-                    <button className="bg-white/90 text-luxury-dark px-3 py-1 rounded-full text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                      Quick View
-                    </button>
-                  </div>
-                </div>
-                <div className="text-center">
-                  <h3 className="text-lg font-display font-bold text-luxury-dark mb-1">{product.name}</h3>
-                  <p className="text-luxury-gold font-medium mb-2">{product.price}</p>
-                  <a 
-                    href="https://www.instagram.com/c_hoco_bites/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full bg-luxury-dark text-white px-4 py-2 rounded-full hover:bg-primary-600 transition-colors font-medium inline-flex items-center justify-center text-sm"
-                  >
-                    <Instagram className="h-4 w-4 mr-2" />
-                    Order on Instagram
-                  </a>
-                </div>
-              </motion.div>
-            ))}
+            {productCards}
           </div>
 
           <div className="mt-20 text-center">
@@ -125,51 +185,9 @@ const Shop: React.FC = () => {
             <div className="w-24 h-1 bg-luxury-gold mx-auto"></div>
           </div>
           
+          {/* Collections grid - using memoized collection cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Signature Truffles",
-                description: "Our award-winning selection of handcrafted truffles",
-                image: "/IMAGES/cookiee.jpg"
-              },
-              {
-                name: "Gift Boxes",
-                description: "Elegant assortments perfect for any occasion",
-                image: "/IMAGES/cinimon.jpg"
-              },
-              {
-                name: "Seasonal Specials",
-                description: "Limited-time offerings inspired by the seasons",
-                image: "/IMAGES/cookiechip.jpg"
-              }
-            ].map((collection, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
-                className="group relative h-80 overflow-hidden rounded-xl"
-              >
-                <img 
-                  src={collection.image}
-                  alt={collection.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  loading="lazy"
-                  width="400"
-                  height="300"
-                  decoding="async"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-black/20"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                  <h3 className="text-2xl font-display font-bold mb-2">{collection.name}</h3>
-                  <p className="text-white/80 font-accent mb-4">{collection.description}</p>
-                  <button className="px-4 py-2 bg-luxury-gold text-white rounded-full text-sm font-medium hover:bg-luxury-gold/80 transition-colors">
-                    Explore Collection
-                  </button>
-                </div>
-              </motion.div>
-            ))}
+            {collectionCards}
           </div>
         </div>
       </section>
