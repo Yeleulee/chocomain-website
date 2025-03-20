@@ -42,18 +42,18 @@ const Shop: React.FC = () => {
           {/* Products grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {[
-              {name: "Dark Chocolate Truffle", price: "ETB 350", image: "/IMAGES/dark_chocolate_truffle.jpg", category: "Truffles"},
-              {name: "Salted Caramel Dream", price: "ETB 400", image: "/IMAGES/salted_caramel_dream.jpg", category: "Truffles"},
-              {name: "Red Velvet Royale", price: "ETB 400", image: "/IMAGES/red_velvet_royale.jpg", category: "Cookies"},
-              {name: "Lemon Zest Delight", price: "ETB 300", image: "/IMAGES/lemon_zest_delight.jpg", category: "Cookies"},
-              {name: "Peanut Butter Bliss", price: "ETB 325", image: "/IMAGES/peanut_butter_bliss.jpg", category: "Cookies"},
-              {name: "White Chocolate Macadamia", price: "ETB 350", image: "/IMAGES/white_chocolate_macadamia.jpg", category: "Cookies"},
-              {name: "Hazelnut Heaven", price: "ETB 450", image: "/IMAGES/hazelnut_heaven.jpg", category: "Truffles"},
-              {name: "Premium Gift Box", price: "ETB 1250", image: "/IMAGES/premium_gift_box.jpg", category: "Gift Sets"},
-              {name: "Seasonal Special", price: "ETB 500", image: "/IMAGES/seasonal_special.jpg", category: "Specials"},
-              {name: "Chocolate Chip Classic", price: "ETB 300", image: "/IMAGES/chocolate_chip_classic.jpg", category: "Cookies"},
-              {name: "Luxury Assortment", price: "ETB 1500", image: "/IMAGES/luxury_assortment.jpg", category: "Gift Sets"},
-              {name: "Birthday Collection", price: "ETB 1000", image: "/IMAGES/birthday_collection.jpg", category: "Gift Sets"},
+              {name: "Dark Chocolate Truffle", price: "$6.99", image: "/IMAGES/cookiee.jpg", category: "Truffles"},
+              {name: "Salted Caramel Dream", price: "$7.99", image: "/IMAGES/cinimon.jpg", category: "Truffles"},
+              {name: "Red Velvet Royale", price: "$7.99", image: "/IMAGES/cookiechip.jpg", category: "Cookies"},
+              {name: "Lemon Zest Delight", price: "$5.99", image: "/IMAGES/brownies.jpg", category: "Cookies"},
+              {name: "Peanut Butter Bliss", price: "$6.49", image: "/IMAGES/butter.jpg", category: "Cookies"},
+              {name: "White Chocolate Macadamia", price: "$6.99", image: "/IMAGES/cini.jpg", category: "Cookies"},
+              {name: "Hazelnut Heaven", price: "$8.99", image: "/IMAGES/cookiee.jpg", category: "Truffles"},
+              {name: "Premium Gift Box", price: "$24.99", image: "/IMAGES/brownies.webp", category: "Gift Sets"},
+              {name: "Seasonal Special", price: "$9.99", image: "/IMAGES/brownies 2.webp", category: "Specials"},
+              {name: "Chocolate Chip Classic", price: "$5.99", image: "/IMAGES/cookiechip.jpg", category: "Cookies"},
+              {name: "Luxury Assortment", price: "$29.99", image: "/IMAGES/cinimon.jpg", category: "Gift Sets"},
+              {name: "Birthday Collection", price: "$19.99", image: "/IMAGES/butter.jpg", category: "Gift Sets"},
             ].map((product, index) => (
               <motion.div
                 key={index}
